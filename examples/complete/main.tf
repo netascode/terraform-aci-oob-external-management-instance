@@ -1,7 +1,9 @@
-module "aci_scaffolding" {
-  source = "netascode/scaffolding/aci"
+module "aci_oob_external_management_instance" {
+  source = "netascode/oob-external-management-instance/aci"
 
-  name        = "ABC"
-  alias       = "ABC-ALIAS"
-  description = "My Description"
+  name    = "INST1"
+  subnets = ["0.0.0.0/0"]
+  oob_contracts = {
+    consumers = ["CON1"]
+  }
 }

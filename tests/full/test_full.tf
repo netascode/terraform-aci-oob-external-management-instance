@@ -14,35 +14,57 @@ terraform {
 module "main" {
   source = "../.."
 
-  name        = "ABC"
-  alias       = "ALIAS"
-  description = "DESCR"
+  name    = "INST1"
+  subnets = ["0.0.0.0/0"]
+  oob_contracts = {
+    consumers = ["CON1"]
+  }
 }
 
-data "aci_rest" "fvTenant" {
-  dn = "uni/tn-ABC"
+data "aci_rest" "mgmtInstP" {
+  dn = "uni/tn-mgmt/extmgmt-default/instp-${module.main.name}"
 
   depends_on = [module.main]
 }
 
-resource "test_assertions" "fvTenant" {
-  component = "fvTenant"
+resource "test_assertions" "mgmtInstP" {
+  component = "mgmtInstP"
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.fvTenant.content.name
-    want        = "ABC"
+    got         = data.aci_rest.mgmtInstP.content.name
+    want        = module.main.name
   }
+}
 
-  equal "nameAlias" {
-    description = "nameAlias"
-    got         = data.aci_rest.fvTenant.content.nameAlias
-    want        = "ALIAS"
+data "aci_rest" "mgmtSubnet" {
+  dn = "${data.aci_rest.mgmtInstP.id}/subnet-[0.0.0.0/0]"
+
+  depends_on = [module.main]
+}
+
+resource "test_assertions" "mgmtSubnet" {
+  component = "mgmtSubnet"
+
+  equal "ip" {
+    description = "ip"
+    got         = data.aci_rest.mgmtSubnet.content.ip
+    want        = "0.0.0.0/0"
   }
+}
 
-  equal "descr" {
-    description = "descr"
-    got         = data.aci_rest.fvTenant.content.descr
-    want        = "DESCR"
+data "aci_rest" "mgmtRsOoBCons" {
+  dn = "${data.aci_rest.mgmtInstP.id}/rsooBCons-CON1"
+
+  depends_on = [module.main]
+}
+
+resource "test_assertions" "mgmtRsOoBCons" {
+  component = "mgmtRsOoBCons"
+
+  equal "tnVzOOBBrCPName" {
+    description = "tnVzOOBBrCPName"
+    got         = data.aci_rest.mgmtRsOoBCons.content.tnVzOOBBrCPName
+    want        = "CON1"
   }
 }
