@@ -14,11 +14,9 @@ terraform {
 module "main" {
   source = "../.."
 
-  name    = "INST1"
-  subnets = ["0.0.0.0/0"]
-  oob_contracts = {
-    consumers = ["CON1"]
-  }
+  name                   = "INST1"
+  subnets                = ["0.0.0.0/0"]
+  oob_contract_consumers = ["CON1"]
 }
 
 data "aci_rest" "mgmtInstP" {

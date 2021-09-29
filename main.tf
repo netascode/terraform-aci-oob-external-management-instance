@@ -16,7 +16,7 @@ resource "aci_rest" "mgmtSubnet" {
 }
 
 resource "aci_rest" "mgmtRsOoBCons" {
-  for_each   = toset(var.oob_contracts.consumers != null ? var.oob_contracts.consumers : [])
+  for_each   = toset(var.oob_contract_consumers)
   dn         = "${aci_rest.mgmtInstP.id}/rsooBCons-${each.value}"
   class_name = "mgmtRsOoBCons"
   content = {

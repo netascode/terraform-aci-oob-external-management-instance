@@ -12,13 +12,12 @@ Location in GUI:
 
 ```hcl
 module "aci_oob_external_management_instance" {
-  source = "netascode/oob-external-management-instance/aci"
+  source  = "netascode/oob-external-management-instance/aci"
+  version = ">= 0.0.2"
 
-  name    = "INST1"
-  subnets = ["0.0.0.0/0"]
-  oob_contracts = {
-    consumers = ["CON1"]
-  }
+  name                   = "INST1"
+  subnets                = ["0.0.0.0/0"]
+  oob_contract_consumers = ["CON1"]
 }
 
 ```
@@ -42,7 +41,7 @@ module "aci_oob_external_management_instance" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_name"></a> [name](#input\_name) | OOB external management instance name. | `string` | n/a | yes |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | Subnets | `list(string)` | `[]` | no |
-| <a name="input_oob_contracts"></a> [oob\_contracts](#input\_oob\_contracts) | OOB Contracts | <pre>object({<br>    consumers = optional(list(string))<br>  })</pre> | `{}` | no |
+| <a name="input_oob_contract_consumers"></a> [oob\_contract\_consumers](#input\_oob\_contract\_consumers) | List of OOB contract consumers. | `list(string)` | `[]` | no |
 
 ## Outputs
 

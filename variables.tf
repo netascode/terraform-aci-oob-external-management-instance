@@ -14,17 +14,15 @@ variable "subnets" {
   default     = []
 }
 
-variable "oob_contracts" {
-  description = "OOB Contracts"
-  type = object({
-    consumers = optional(list(string))
-  })
-  default = {}
+variable "oob_contract_consumers" {
+  description = "List of OOB contract consumers."
+  type        = list(string)
+  default     = []
 
   validation {
     condition = alltrue([
-      for prov in coalesce(var.oob_contracts.consumers, []) : can(regex("^[a-zA-Z0-9_.-]{0,64}$", prov))
+      for c in var.oob_contract_consumers : can(regex("^[a-zA-Z0-9_.-]{0,64}$", c))
     ])
-    error_message = "`consumers`: Allowed characters: `a`-`z`, `A`-`Z`, `0`-`9`, `_`, `.`, `-`. Maximum characters: 64."
+    error_message = "Allowed characters: `a`-`z`, `A`-`Z`, `0`-`9`, `_`, `.`, `-`. Maximum characters: 64."
   }
 }
