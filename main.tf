@@ -8,7 +8,7 @@ resource "aci_rest" "mgmtInstP" {
 
 resource "aci_rest" "mgmtSubnet" {
   for_each   = toset(var.subnets)
-  dn         = "${aci_rest.mgmtInstP.id}/subnet-[${each.value}]"
+  dn         = "${aci_rest.mgmtInstP.dn}/subnet-[${each.value}]"
   class_name = "mgmtSubnet"
   content = {
     ip = each.value
@@ -17,7 +17,7 @@ resource "aci_rest" "mgmtSubnet" {
 
 resource "aci_rest" "mgmtRsOoBCons" {
   for_each   = toset(var.oob_contract_consumers)
-  dn         = "${aci_rest.mgmtInstP.id}/rsooBCons-${each.value}"
+  dn         = "${aci_rest.mgmtInstP.dn}/rsooBCons-${each.value}"
   class_name = "mgmtRsOoBCons"
   content = {
     tnVzOOBBrCPName = each.value
