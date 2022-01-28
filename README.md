@@ -13,13 +13,12 @@ Location in GUI:
 ```hcl
 module "aci_oob_external_management_instance" {
   source  = "netascode/oob-external-management-instance/aci"
-  version = ">= 0.0.2"
+  version = ">= 0.1.0"
 
   name                   = "INST1"
   subnets                = ["0.0.0.0/0"]
   oob_contract_consumers = ["CON1"]
 }
-
 ```
 
 ## Requirements
@@ -27,13 +26,13 @@ module "aci_oob_external_management_instance" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
-| <a name="requirement_aci"></a> [aci](#requirement\_aci) | >= 0.2.0 |
+| <a name="requirement_aci"></a> [aci](#requirement\_aci) | >= 2.0.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aci"></a> [aci](#provider\_aci) | >= 0.2.0 |
+| <a name="provider_aci"></a> [aci](#provider\_aci) | >= 2.0.0 |
 
 ## Inputs
 
@@ -54,7 +53,7 @@ module "aci_oob_external_management_instance" {
 
 | Name | Type |
 |------|------|
-| [aci_rest.mgmtInstP](https://registry.terraform.io/providers/netascode/aci/latest/docs/resources/rest) | resource |
-| [aci_rest.mgmtRsOoBCons](https://registry.terraform.io/providers/netascode/aci/latest/docs/resources/rest) | resource |
-| [aci_rest.mgmtSubnet](https://registry.terraform.io/providers/netascode/aci/latest/docs/resources/rest) | resource |
+| [aci_rest_managed.mgmtInstP](https://registry.terraform.io/providers/CiscoDevNet/aci/latest/docs/resources/rest_managed) | resource |
+| [aci_rest_managed.mgmtRsOoBCons](https://registry.terraform.io/providers/CiscoDevNet/aci/latest/docs/resources/rest_managed) | resource |
+| [aci_rest_managed.mgmtSubnet](https://registry.terraform.io/providers/CiscoDevNet/aci/latest/docs/resources/rest_managed) | resource |
 <!-- END_TF_DOCS -->

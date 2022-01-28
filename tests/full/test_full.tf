@@ -5,8 +5,8 @@ terraform {
     }
 
     aci = {
-      source  = "netascode/aci"
-      version = ">=0.2.0"
+      source  = "CiscoDevNet/aci"
+      version = ">=2.0.0"
     }
   }
 }
@@ -19,7 +19,7 @@ module "main" {
   oob_contract_consumers = ["CON1"]
 }
 
-data "aci_rest" "mgmtInstP" {
+data "aci_rest_managed" "mgmtInstP" {
   dn = "uni/tn-mgmt/extmgmt-default/instp-${module.main.name}"
 
   depends_on = [module.main]
@@ -30,13 +30,13 @@ resource "test_assertions" "mgmtInstP" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.mgmtInstP.content.name
+    got         = data.aci_rest_managed.mgmtInstP.content.name
     want        = module.main.name
   }
 }
 
-data "aci_rest" "mgmtSubnet" {
-  dn = "${data.aci_rest.mgmtInstP.id}/subnet-[0.0.0.0/0]"
+data "aci_rest_managed" "mgmtSubnet" {
+  dn = "${data.aci_rest_managed.mgmtInstP.id}/subnet-[0.0.0.0/0]"
 
   depends_on = [module.main]
 }
@@ -46,13 +46,13 @@ resource "test_assertions" "mgmtSubnet" {
 
   equal "ip" {
     description = "ip"
-    got         = data.aci_rest.mgmtSubnet.content.ip
+    got         = data.aci_rest_managed.mgmtSubnet.content.ip
     want        = "0.0.0.0/0"
   }
 }
 
-data "aci_rest" "mgmtRsOoBCons" {
-  dn = "${data.aci_rest.mgmtInstP.id}/rsooBCons-CON1"
+data "aci_rest_managed" "mgmtRsOoBCons" {
+  dn = "${data.aci_rest_managed.mgmtInstP.id}/rsooBCons-CON1"
 
   depends_on = [module.main]
 }
@@ -62,7 +62,7 @@ resource "test_assertions" "mgmtRsOoBCons" {
 
   equal "tnVzOOBBrCPName" {
     description = "tnVzOOBBrCPName"
-    got         = data.aci_rest.mgmtRsOoBCons.content.tnVzOOBBrCPName
+    got         = data.aci_rest_managed.mgmtRsOoBCons.content.tnVzOOBBrCPName
     want        = "CON1"
   }
 }
